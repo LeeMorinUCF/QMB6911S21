@@ -268,6 +268,27 @@ This system of file organization is used in the following examples.
 
 ### Examples
 
+The script ```Paper.tex``` contains all of these components.
+To build the ```pdf``` file from these scripts, 
+you will have to run a program such as ```pdflatex```. 
+
+```
+pdflatex Paper.tex
+pdflatex Paper.tex
+```
+
+This will produce a ```pdf``` document called ```Paper.pdf```, along with some other intermediate files
+that are sometimes useful for troubleshooting
+(although Google is often more useful for that). 
+
+The command is shown twice because there are references to the tables,
+figures and equations in the script. 
+The first time it will produce a document with question marks 
+in place of all the reference numbers. 
+After this accounting exercise, the numbers are filled in
+in the second pass. 
+
+
 
 In the folders above, there are two examples of end-to-end data analysis that
 generates figures and tables for documents in LaTeX. 
