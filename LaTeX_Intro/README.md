@@ -13,6 +13,7 @@ analysts to achieve the perfect answer on the first run.
 
 LaTeX is a document markup language for the TeX typesetting program. 
 The minimal document can be created with the following commands in a file that could be called ```Paper.tex```.
+For this demonstration, we'll call it ```Paper_0.tex```.
 
 ```
 \documentclass[paper]
@@ -30,6 +31,9 @@ Documents are typically divided into ```sections``` and ```subsections```.
 Elements of a document, such as sections, tables, figures and equations are ```ref```erenced by ```label```s. 
 Using programmatic references to components of the document eliminates the need to change reference numbers when the components are put in a different order or
 when components are added or removed. 
+
+
+Now consider the following script, called ```Paper_1.tex```.
 
 ```
 \documentclass[paper]
@@ -69,6 +73,9 @@ no translation of the images is required.
 To handle cases on different platforms, you can use ```if``` statements, 
 much like you can in other languages. 
 
+
+We add a figure to a script called ```Paper_2.tex```.
+
 ```
 \documentclass[paper]
 
@@ -103,6 +110,8 @@ The notation takes some getting used to but the following script was
 generated automatically using the ```xtable``` package in ```R```. 
 Life is too short to type this sort of thing manually. 
 
+
+We add a table to a script called ```Paper_3.tex```.
 
 ```
 \documentclass[paper]
@@ -139,15 +148,16 @@ is to enter the code for the table in a separate script and
 include it in the document using the ```input``` command. 
 
 
+We import some text and the table in a script called ```Paper_4.tex```.
+
 ```
 \documentclass[paper]
 
 \begin{document}
-This is my document.
 
-In Table \ref{tab:summary}, there are some numbers.
+\input{../Text/my_text.tex}
 
-\input{../Text/my_table.tex}
+\input{../Tables/my_table.tex}
 
 
 \end{document}
@@ -182,7 +192,62 @@ y_i = \beta_0 = \beta_1 x_i + \epsilon_i
 \end{equation}
 ```
 
-Entire books have been written about interacting with the ```equation``` environment. Most writers use the internet. 
+Entire books have been written about interacting with the ```equation``` environment. Most writers use the Internet. 
+
+
+### Code Snippets
+
+You can also display the commands you used to generate some output, 
+which might be useful to help explain your analysis. 
+First, you have to declare a few more packages 
+in the preamble before the ```\begin{document}``` command. 
+
+```
+% Packages for displaying code:
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{color}
+
+% Color settings used in the code below:
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% Settings for the formatting of the code on display:
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+```
+The first is the set of packages to display code, 
+the main one being ```listings```. 
+The rest are for customized settings, such as the color
+and format of the syntax within the code.
+
+A block of R code is displayed with the following commands.
+
+```
+\begin{lstlisting}[language=R]
+R> # Generate a random variable.
+    epsilon <- rnorm(1000)
+\end{lstlisting}
+```
+
+
+This is all collected with an example of a figure
+in the script ```Paper_5.tex```. 
 
 
 ### File Organization
