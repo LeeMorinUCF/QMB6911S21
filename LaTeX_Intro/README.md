@@ -16,7 +16,7 @@ The minimal document can be created with the following commands in a file that c
 For this demonstration, we'll call it ```Paper_0.tex```.
 
 ```
-\documentclass[paper]
+\documentclass[11pt]{article}
 \begin{document}
 This is my document.
 \end{document}
@@ -36,7 +36,7 @@ when components are added or removed.
 Now consider the following script, called ```Paper_1.tex```.
 
 ```
-\documentclass[paper]
+\documentclass[11pt]{article}
 \begin{document}
 
 This is my document.
@@ -77,7 +77,7 @@ much like you can in other languages.
 We add a figure to a script called ```Paper_2.tex```.
 
 ```
-\documentclass[paper]
+\documentclass[11pt]{article}
 
 \ifx\pdftexversion\undefined
     \usepackage[dvips]{graphicx}
@@ -114,7 +114,7 @@ Life is too short to type this sort of thing manually.
 We add a table to a script called ```Paper_3.tex```.
 
 ```
-\documentclass[paper]
+\documentclass[11pt]{article}
 
 \begin{document}
 This is my document.
@@ -151,7 +151,7 @@ include it in the document using the ```input``` command.
 We import some text and the table in a script called ```Paper_4.tex```.
 
 ```
-\documentclass[paper]
+\documentclass[11pt]{article}
 
 \begin{document}
 
