@@ -182,13 +182,13 @@ I think about it far too often.
 
 In any case, the simple equation environment is indicated by the dollar sign ```$```.
 This is typically used for inline equations, such as 
-```$y_i = \beta_0 = \beta_1 x_i + \epsilon_i$```. 
+```$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$```. 
 
 For larger expressions, the ```equation``` environment is preferred:
 
 ```
 \begin{equation}
-y_i = \beta_0 = \beta_1 x_i + \epsilon_i
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 \end{equation}
 ```
 
