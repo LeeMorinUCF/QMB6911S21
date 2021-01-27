@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# QMB 6358: Software Tools for Business Analytics
+# QMB 6911: Capstone in Business Analytics
 # Shell Script for Sample Business Analytics Project
 #
 # Name:

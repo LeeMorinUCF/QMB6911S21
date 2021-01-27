@@ -37,9 +37,8 @@ rm(list=ls(all=TRUE))
 
 # Set working directory.
 # wd_path <- '/path/to/your/folder'
-# wd_path <- 'C:/Users/le279259/Teaching/QMB6358_Fall_2020/GitRepos/QMB6358F20/demo_14_R_file_IO/LaTeX_from_R'
+# wd_path <- 'C:/Users/le279259/Documents/Teaching/QMB6911_Summer_2021/LaTeX_Demo/QMB6911S21/LaTeX_from_R'
 # setwd(wd_path)
-
 
 # It's not necessary to set the directory, since we are working in the
 # main directory already: that's where the shell script is running.
