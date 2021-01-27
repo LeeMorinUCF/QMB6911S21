@@ -36,7 +36,13 @@ shows how to modify an existing file (scroll down to see the example).
 ### Modify an existing project
 
 Several versions of your code can be stored at the same time in units called branches.
-The default storage space for a repository is called the master branch. Often, you will not want to make edits to the master branch when you are developing new code, so you would [create another branch of the repository](https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository).
+The default storage space for a repository is often called the master branch.
+Note that, as of 2020, the default branch name for new repositories 
+has changed to ```main``` from ```master```. 
+The rest of this document will display commands assuming that your 
+main branch is called ```master```, with the understanding that you might 
+substitute ```main``` for ```master```. 
+Often, you will not want to make edits to the master branch when you are developing new code, so you would [create another branch of the repository](https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository).
 Once you have tested your code, it can be pulled to the master branch by [Creating a pull request](https://help.github.com/en/articles/creating-a-pull-request).
 
 ### Forking: Making your own copy of the repo
@@ -57,7 +63,8 @@ The default branch is called *master* but you may choose any name
 for the new branch, which could refer to you (the user making the changes)
 or to the nature of the modifications to the code in the repo. 
 You must be a collaborator of the repo to modify the repo in this way. 
-This can be done by clicking the branch button (originally labeled master) 
+This can be done by clicking the branch button 
+(originally labeled master or main, according to when the repo was created) 
 and typing in the new branch name. 
 You will have to toggle the branch button to switch between branches. 
 Further instructions are available in this page about [managing branches](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/managing-branches).
@@ -169,6 +176,9 @@ where you would get the url in the same way you would to clone the original upst
 git pull upstream master
 ```
 where the pull is from the master branch of the upstream repo and not the orign. 
+Again, as of 2020, the default branch name for new repositories 
+has changed to ```main``` from ```master```. 
+
 
 10. Now these updates are on your local machine but have not been pushed to your mirror of the repo. 
 
@@ -176,6 +186,8 @@ where the pull is from the master branch of the upstream repo and not the orign.
 git push origin master
 ```
 will work the same as for any other content you add, except these are already added and committed to the upstream repo. 
+One more time, as of 2020, the default branch name for new repositories 
+has changed to ```main``` from ```master```. 
 
 
 
@@ -209,6 +221,8 @@ For example, when your instructor adds new content, pull those changes to your l
 git pull upstream master
 git push origin master
 ```
+
+with ```master``` replaced with ```main```, if that is the name of your branch. 
 
 ### Updates to Your Local Copy
 
