@@ -587,6 +587,29 @@ all files in this directory with the extensions ```.tex``` and ```.pdf```, as we
 The reverse operation, recovering the files in a ```zip``` archive, is executed with the ```unzip``` command. 
 Similar compression operations are achieved with ```gzip``` or ```tar```. 
 
+The usual UNIX options can be used to include more files in your compressed folder. 
+If you want to add all files in the current folder, 
+use the dot ```.``` to indicate the current durectory. 
+
+```
+zip MorinPS2.zip .
+```
+
+If you want to include the contents of folders in your compressed file, 
+add the ```-r``` option, which indicates that the files should be added *recursively*. 
+That is, include the files and folders within the folders ... and the files and folders within those, and so on...
+
+```
+zip -r MorinPS2.zip .
+```
+
+Finally, if you want to include only selected files and folders, 
+including all of the contents of those folders, 
+indicate those folders as follows. 
+
+```
+zip -r MorinPS2.zip Code Data Figures Paper Tables Text ReadMe DoWork.sh
+```
 
 
 ## Version Control with GitHub
