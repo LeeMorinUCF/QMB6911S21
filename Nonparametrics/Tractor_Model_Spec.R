@@ -16,6 +16,8 @@
 #
 # Tractor_Model_Spec gives examples of OLS regression models
 #   by considering a number of different model specifications.
+# In this example, the model specification choices
+#   have a parametric form.
 #
 ##################################################
 
@@ -69,9 +71,6 @@ tractor_sales[, 'log_saleprice'] <- log(tractor_sales[, 'saleprice'])
 hist(tractor_sales[, 'log_saleprice'])
 # Much better behaved. Looks almost normal.
 
-# Create a variable squared_horsepower
-# to investigate quadratic relationship of sale price to horsepower.
-tractor_sales[, 'squared_horsepower'] <- tractor_sales[, 'horsepower']^2
 
 
 ##################################################
@@ -158,6 +157,9 @@ summary(lm_model_4)
 #
 ##################################################
 
+# Create a variable squared_horsepower
+# to investigate quadratic relationship of sale price to horsepower.
+tractor_sales[, 'squared_horsepower'] <- tractor_sales[, 'horsepower']^2
 
 
 # Estimate a regression model.
@@ -230,7 +232,10 @@ print(RSS_constrained)
 num_obs <- nrow(tractor_sales)
 num_vars <- 12
 
-F_stat <- (RSS_constrained - RSS_unconstrained)/3 /
+# A test of three restrictions (one for each seasonal dummy).
+num_restr <- 3
+
+F_stat <- (RSS_constrained - RSS_unconstrained)/num_restr /
   RSS_unconstrained*(num_obs - num_vars - 1)
 print(F_stat)
 
