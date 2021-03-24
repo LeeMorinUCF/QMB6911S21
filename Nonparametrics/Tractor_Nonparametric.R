@@ -140,37 +140,43 @@ plot(tractor_sales[, 'horsepower'],
 
 
 # Now calculate a curve for the prediction from tractor prices.
-np_hp_fit_1 <- lowess(tractor_sales[, 'horsepower'],
-                   tractor_sales[, 'log_saleprice_dev'])
+# np_hp_fit_1 <- lowess(tractor_sales[, 'horsepower'],
+#                       tractor_sales[, 'log_saleprice_dev'])
+# This function allows you to predict (useful in a model later).
+np_hp_fit_1 <- loess(log_saleprice_dev ~ horsepower, tractor_sales)
 
 # Add a plot of this curve to the scattergraph.
-lines(np_hp_fit_1, col = 'red', lwd = 3)
-
+# lines(np_hp_fit_1, col = 'red', lwd = 3)
+tractor_sales[, 'horsepower_np'] <- np_hp_fit_1$fitted
+lines(tractor_sales[order(tractor_sales[, 'horsepower']), c('horsepower', 'horsepower_np')],
+      col = 'red', lwd = 3)
+# More difficult to plot loess than lowess but it will be worth it later.
 
 # As above, you can fine-tune the parameters.
 # See the help for lowess.
-# The smoother span (bandwidth parameter) is 2/3.
-# It is "the proportion of points in the plot
+# The smoother span (bandwidth parameter) is 0.75.
+# In lowess, f is "the proportion of points in the plot
 # which influence the smooth at each value.
 # Larger values give more smoothness."
 
-np_hp_fit_2 <- lowess(tractor_sales[, 'horsepower'],
-                   tractor_sales[, 'log_saleprice_dev'],
-                   f = 1/3)
+np_hp_fit_2 <- loess(log_saleprice_dev ~ horsepower, tractor_sales, span = 2.0)
 
 # Add a plot of this curve to the scattergraph.
-lines(np_hp_fit_2, col = 'green', lwd = 3)
+tractor_sales[, 'horsepower_np'] <- np_hp_fit_2$fitted
+lines(tractor_sales[order(tractor_sales[, 'horsepower']), c('horsepower', 'horsepower_np')],
+      col = 'green', lwd = 3)
 # You can see some flattening with this
 # more flexible estimator.
 
 
 # Try again with less smooting.
-np_hp_fit_3 <- lowess(tractor_sales[, 'horsepower'],
-                   tractor_sales[, 'log_saleprice_dev'],
-                   f = 0.1)
+np_hp_fit_3 <- loess(log_saleprice_dev ~ horsepower, tractor_sales, span = 0.1)
+
 
 # Add a plot of this curve to the scattergraph.
-lines(np_hp_fit_3, col = 'magenta', lwd = 3)
+tractor_sales[, 'horsepower_np'] <- np_hp_fit_3$fitted
+lines(tractor_sales[order(tractor_sales[, 'horsepower']), c('horsepower', 'horsepower_np')],
+      col = 'magenta', lwd = 3)
 # Much more rough but you capture the decline
 # in value for tractors with high horsepower.
 
@@ -180,7 +186,7 @@ lines(np_hp_fit_3, col = 'magenta', lwd = 3)
 # that you fit during your investigation.
 
 # In this case, we will keep the first fit.
-tractor_sales[, 'horsepower_np'] <- np_hp_fit_1['y']
+tractor_sales[, 'horsepower_np'] <- np_hp_fit_1$fitted
 
 
 # Try this again on other continuous variables.
@@ -197,12 +203,12 @@ plot(tractor_sales[, 'age'],
      col = 'blue')
 
 # Now calculate a curve for the prediction from tractor prices.
-np_age_fit_1 <- lowess(tractor_sales[, 'age'],
-                       tractor_sales[, 'log_saleprice_dev'],
-                       f = 0.25)
+np_age_fit_1 <- loess(log_saleprice_dev ~ age, tractor_sales)
 
 # Add a plot of this curve to the scattergraph.
-lines(np_age_fit_1, col = 'red', lwd = 3)
+tractor_sales[, 'age_np'] <- np_age_fit_1$fitted
+lines(tractor_sales[order(tractor_sales[, 'age']), c('age', 'age_np')],
+      col = 'red', lwd = 3)
 
 # This doesn't look very different from linear.
 
@@ -215,17 +221,19 @@ lines(np_age_fit_1, col = 'red', lwd = 3)
 plot(tractor_sales[, 'enghours'],
      tractor_sales[, 'log_saleprice_dev'],
      main = 'Nonparametric Model for Tractor Prices',
-     xlab = 'Age (years)',
+     xlab = 'Engine Hours',
      ylab = 'Deviation for Log Tractor Prices',
      col = 'blue')
 
+
 # Now calculate a curve for the prediction from tractor prices.
-np_hrs_fit_1 <- lowess(tractor_sales[, 'enghours'],
-                       tractor_sales[, 'log_saleprice_dev'],
-                       f = 0.5)
+np_hrs_fit_1 <- loess(log_saleprice_dev ~ enghours, tractor_sales)
 
 # Add a plot of this curve to the scattergraph.
-lines(np_hrs_fit_1, col = 'red', lwd = 3)
+tractor_sales[, 'enghours_np'] <- np_hrs_fit_1$fitted
+lines(tractor_sales[order(tractor_sales[, 'enghours']), c('enghours', 'enghours_np')],
+      col = 'red', lwd = 3)
+
 
 # Looks as though linear might also be close enough
 # (except for the outliers in the tail.)
@@ -265,7 +273,7 @@ lm_np_model_1 <- lm(data = tractor_sales,
 # Output the results to screen.
 summary(lm_np_model_1)
 
-# The fit is much better but the negative value is puzzling.
+# The fit is slightly better but the model is very similar.
 
 
 
@@ -305,15 +313,13 @@ plot(tractor_sales[, 'horsepower'],
 
 
 # Now calculate a curve for the prediction from tractor prices.
-np_hp_fit_4 <- lowess(tractor_sales[, 'horsepower'],
-                      tractor_sales[, 'log_saleprice_resid'],
-                      f = 0.5)
+np_hp_fit_4 <- loess(log_saleprice_resid ~ horsepower, tractor_sales, span = 0.75)
+
 
 # Add a plot of this curve to the scattergraph.
-lines(np_hp_fit_4, col = 'red', lwd = 3)
-
-# Keep this and test it in the model.
-tractor_sales[, 'horsepower_np_4'] <- np_hp_fit_4['y']
+tractor_sales[, 'horsepower_np_4'] <- np_hp_fit_4$fitted
+lines(tractor_sales[order(tractor_sales[, 'horsepower']), c('horsepower', 'horsepower_np_4')],
+      col = 'red', lwd = 3)
 
 
 ##################################################
@@ -331,7 +337,7 @@ lm_np_model_2 <- lm(data = tractor_sales,
 # Output the results to screen.
 summary(lm_np_model_2)
 
-# There is still the negative value that doesn't make sense.
+# This is also a model of comparable quality.
 
 # Now we have a few candidates.
 # We can compare them with F-tests.
@@ -359,8 +365,11 @@ num_vars <- 10 # In unrestricted model (not including constant).
 F_stat <- (RSS_constrained - RSS_unconstrained)/num_restr /
   RSS_unconstrained*(num_obs - num_vars - 1)
 print(F_stat)
+print(pf(F_stat, df1 = num_restr, df2 = num_obs - num_vars - 1,
+      lower.tail = FALSE))
 
-
+# A high F-statistic indicates a significant reduction in quality of fit.
+# You reject the null that the restriction is true.
 
 # F-test of unrestricted model vs. parametric.
 # A test of one restriction.
@@ -373,9 +382,16 @@ num_vars <- 10 # In unrestricted model (not including constant).
 F_stat <- (RSS_constrained - RSS_unconstrained)/num_restr /
   RSS_unconstrained*(num_obs - num_vars - 1)
 print(F_stat)
+print(pf(F_stat, df1 = num_restr, df2 = num_obs - num_vars - 1,
+         lower.tail = FALSE))
 
-# They are both acceptable models.
-# The more flexible model does better
+# A high F-statistic indicates a significant reduction in quality of fit.
+# You reject the null that the restriction is true.
+
+
+# The full model is still statistically better.
+# The submodels are also both acceptable models.
+# Of course, the more flexible model does better
 # but this, in some sense, uses many more "degrees of freedom"
 # so it is not a fair comparison.
 # Better to estimate the semiparametric part in the Box-Tidwell
