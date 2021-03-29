@@ -72,6 +72,10 @@ hist(tractor_sales[, 'log_saleprice'])
 # Much better behaved. Looks almost normal.
 
 
+hist(tractor_sales[, 'log_saleprice'], breaks = 50)
+
+hist(tractor_sales[, 'log_saleprice'], breaks = 5)
+
 ##################################################
 # Univariate kernel estimation
 ##################################################
@@ -247,6 +251,9 @@ lines(tractor_sales[order(tractor_sales[, 'enghours']), c('enghours', 'enghours_
 # Omit seasonal indicators
 ##################################################
 
+tractor_sales[, 'squared_horsepower'] <- tractor_sales[, 'horsepower']^2
+
+
 # Estimate a regression model.
 lm_model_7 <- lm(data = tractor_sales,
                  formula = log_saleprice ~ horsepower + squared_horsepower +
@@ -301,24 +308,38 @@ tractor_sales[, 'log_saleprice_resid'] <- lm_model_9$residuals
 # Now fit a nonparametric model on this.
 
 
+# Estimate a regression model,
+# with everything but the horsepower variable.
+lm_model_10 <- lm(data = tractor_sales,
+                 formula = horsepower ~ # horsepower + squared_horsepower +
+                   age + enghours +
+                   diesel + fwd + manual + johndeere + cab)
+
+# Output the results to screen.
+summary(lm_model_10)
+
+# Now let's store the residuals.
+tractor_sales[, 'horsepower_resid'] <- lm_model_10$residuals
+# Now fit a nonparametric model on this.
+
 
 
 # Plot a scattergraph to start.
-plot(tractor_sales[, 'horsepower'],
+plot(tractor_sales[, 'horsepower_resid'],
      tractor_sales[, 'log_saleprice_resid'],
      main = 'Nonparametric Model for Tractor Prices',
-     xlab = 'Horsepower',
-     ylab = 'Residuals',
+     xlab = 'Horsepower Residuals',
+     ylab = 'Log Tractor Price Residuals',
      col = 'blue')
 
 
 # Now calculate a curve for the prediction from tractor prices.
-np_hp_fit_4 <- loess(log_saleprice_resid ~ horsepower, tractor_sales, span = 0.75)
+np_hp_fit_4 <- loess(log_saleprice_resid ~ horsepower_resid, tractor_sales, span = 0.75)
 
 
 # Add a plot of this curve to the scattergraph.
 tractor_sales[, 'horsepower_np_4'] <- np_hp_fit_4$fitted
-lines(tractor_sales[order(tractor_sales[, 'horsepower']), c('horsepower', 'horsepower_np_4')],
+lines(tractor_sales[order(tractor_sales[, 'horsepower_resid']), c('horsepower_resid', 'horsepower_np_4')],
       col = 'red', lwd = 3)
 
 
@@ -386,7 +407,7 @@ print(pf(F_stat, df1 = num_restr, df2 = num_obs - num_vars - 1,
          lower.tail = FALSE))
 
 # A high F-statistic indicates a significant reduction in quality of fit.
-# You reject the null that the restriction is true.
+# You do not reject the null that the restriction is true.
 
 
 # The full model is still statistically better.
