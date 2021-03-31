@@ -83,7 +83,10 @@ tractor_sales[, 'squared_horsepower'] <- tractor_sales[, 'horsepower']^2
 # must indicate membership in mutually exclusive categories.
 
 # d_var_list <- c('diesel', 'fwd', 'manual', 'cab')
-# tractor_sales[, 'DFMC'] <- sprintf('%d%d%d%d', tractor_sales[, d_var_list])
+# tractor_sales[, 'DFMC'] <- ...
+
+# In what follows, I will use the dummy variables
+# as covariates.
 
 ##################################################
 # Linear Regression Models
@@ -110,7 +113,7 @@ summary(lm_model_7)
 # Estimate separately for John Deere tractors
 #--------------------------------------------------
 
-# Model for JOhn Deere tractors:
+# Model for John Deere tractors:
 
 # Estimate the regression model.
 lm_model_jd <- lm(data = tractor_sales[tractor_sales[, 'johndeere'] == 1, ],
@@ -122,7 +125,7 @@ lm_model_jd <- lm(data = tractor_sales[tractor_sales[, 'johndeere'] == 1, ],
 summary(lm_model_jd)
 
 
-# Model excluding JOhn Deere tractors:
+# Model excluding John Deere tractors:
 
 # Estimate the regression model.
 lm_model_njd <- lm(data = tractor_sales[tractor_sales[, 'johndeere'] == 0, ],
@@ -164,7 +167,15 @@ tractor_oaxaca <- oaxaca(data = tractor_sales,
                            fwd + cab |
                            johndeere)
 
+# Plot with interactions to separate unexplained variance
+# into coefficients and interaction.
 plot(tractor_oaxaca)
+
+
+# Interactions do not appear to be too important,
+# so plot with all unexplained variation together.
+plot(tractor_oaxaca, decomposition = "twofold",
+     group.weight = -1)
 
 
 ##################################################
