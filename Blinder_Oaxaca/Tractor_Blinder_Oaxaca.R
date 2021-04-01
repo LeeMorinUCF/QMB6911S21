@@ -207,3 +207,24 @@ summary(tractor_sales[tractor_sales[, 'johndeere'] == 0, cts_var_list])
 ##################################################
 # End
 ##################################################
+
+# Test: Try switching directions.
+tractor_sales[, 'not_johndeere'] <- 1 - tractor_sales[, 'johndeere']
+
+
+tractor_oaxaca_njd <- oaxaca(data = tractor_sales,
+                         formula = log_saleprice ~
+                            horsepower + squared_horsepower +
+                            age + enghours +
+                            # diesel + fwd + manual + cab |
+                            fwd + cab |
+                            not_johndeere)
+
+
+
+# Interactions do not appear to be too important,
+# so plot with all unexplained variation together.
+plot(tractor_oaxaca_njd, decomposition = "twofold",
+     group.weight = -1)
+
+# See: All the bars switched direction.
